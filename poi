@@ -1,0 +1,290 @@
+[1mdiff --git a/ClassifyMoe/ClassifyMoe.csproj b/ClassifyMoe/ClassifyMoe.csproj[m
+[1mindex 6c64ac7..d718913 100644[m
+[1m--- a/ClassifyMoe/ClassifyMoe.csproj[m
+[1m+++ b/ClassifyMoe/ClassifyMoe.csproj[m
+[36m@@ -52,7 +52,9 @@[m
+     <Compile Include="Form1.Designer.cs">[m
+       <DependentUpon>Form1.cs</DependentUpon>[m
+     </Compile>[m
+[32m+[m[32m    <Compile Include="InterpretFileData.cs" />[m
+     <Compile Include="MoeFile.cs" />[m
+[32m+[m[32m    <Compile Include="PopulateDataGridView.cs" />[m
+     <Compile Include="Program.cs" />[m
+     <Compile Include="Properties\AssemblyInfo.cs" />[m
+     <Compile Include="RemoveUnrecognizedFiles.cs" />[m
+[1mdiff --git a/ClassifyMoe/Form1.Designer.cs b/ClassifyMoe/Form1.Designer.cs[m
+[1mindex d59bedb..9a6bac6 100644[m
+[1m--- a/ClassifyMoe/Form1.Designer.cs[m
+[1m+++ b/ClassifyMoe/Form1.Designer.cs[m
+[36m@@ -35,12 +35,13 @@[m
+       this.pathLabel = new System.Windows.Forms.Label();[m
+       this.scanSubfoldersCheckbox = new System.Windows.Forms.CheckBox();[m
+       this.resultTable = new System.Windows.Forms.DataGridView();[m
+[32m+[m[32m      this.saveButton = new System.Windows.Forms.Button();[m
+[32m+[m[32m      this.loadButton = new System.Windows.Forms.Button();[m
+       this.Characters = new System.Windows.Forms.DataGridViewTextBoxColumn();[m
+       this.Series = new System.Windows.Forms.DataGridViewTextBoxColumn();[m
+       this.Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();[m
+       this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();[m
+[31m-      this.saveButton = new System.Windows.Forms.Button();[m
+[31m-      this.loadButton = new System.Windows.Forms.Button();[m
+[32m+[m[32m      this.DateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();[m
+       ((System.ComponentModel.ISupportInitialize)(this.resultTable)).BeginInit();[m
+       this.SuspendLayout();[m
+       // [m
+[36m@@ -101,66 +102,76 @@[m
+             this.Characters,[m
+             this.Series,[m
+             this.Tags,[m
+[31m-            this.Filename});[m
+[32m+[m[32m            this.Filename,[m
+[32m+[m[32m            this.DateModified});[m
+       this.resultTable.Location = new System.Drawing.Point(19, 81);[m
+       this.resultTable.Name = "resultTable";[m
+       this.resultTable.ReadOnly = true;[m
+       this.resultTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;[m
+[31m-      this.resultTable.Size = new System.Drawing.Size(726, 417);[m
+[32m+[m[32m      this.resultTable.Size = new System.Drawing.Size(709, 417);[m
+       this.resultTable.TabIndex = 5;[m
+       // [m
+[32m+[m[32m      // saveButton[m
+[32m+[m[32m      //[m[41m [m
+[32m+[m[32m      this.saveButton.Location = new System.Drawing.Point(653, 504);[m
+[32m+[m[32m      this.saveButton.Name = "saveButton";[m
+[32m+[m[32m      this.saveButton.Size = new System.Drawing.Size(75, 23);[m
+[32m+[m[32m      this.saveButton.TabIndex = 6;[m
+[32m+[m[32m      this.saveButton.Text = "Save";[m
+[32m+[m[32m      this.saveButton.UseVisualStyleBackColor = true;[m
+[32m+[m[32m      this.saveButton.Click += new System.EventHandler(this.saveButton_Click);[m
+[32m+[m[32m      //[m[41m [m
+[32m+[m[32m      // loadButton[m
+[32m+[m[32m      //[m[41m [m
+[32m+[m[32m      this.loadButton.Location = new System.Drawing.Point(572, 504);[m
+[32m+[m[32m      this.loadButton.Name = "loadButton";[m
+[32m+[m[32m      this.loadButton.Size = new System.Drawing.Size(75, 23);[m
+[32m+[m[32m      this.loadButton.TabIndex = 7;[m
+[32m+[m[32m      this.loadButton.Text = "Load";[m
+[32m+[m[32m      this.loadButton.UseVisualStyleBackColor = true;[m
+[32m+[m[32m      //[m[41m [m
+       // Characters[m
+       // [m
+[32m+[m[32m      this.Characters.DataPropertyName = "MoeFile.fullPath";[m
+       this.Characters.HeaderText = "Characters";[m
+       this.Characters.Name = "Characters";[m
+       this.Characters.ReadOnly = true;[m
+[31m-      this.Characters.Width = 150;[m
+[32m+[m[32m      this.Characters.Width = 133;[m
+       // [m
+       // Series[m
+       // [m
+       this.Series.HeaderText = "Series";[m
+       this.Series.Name = "Series";[m
+       this.Series.ReadOnly = true;[m
+[31m-      this.Series.Width = 150;[m
+[32m+[m[32m      this.Series.Width = 133;[m
+       // [m
+       // Tags[m
+       // [m
+       this.Tags.HeaderText = "Tags";[m
+       this.Tags.Name = "Tags";[m
+       this.Tags.ReadOnly = true;[m
+[31m-      this.Tags.Width = 150;[m
+[32m+[m[32m      this.Tags.Width = 133;[m
+       // [m
+       // Filename[m
+       // [m
+       this.Filename.HeaderText = "Filename";[m
+       this.Filename.Name = "Filename";[m
+       this.Filename.ReadOnly = true;[m
+[31m-      this.Filename.Width = 150;[m
+[31m-      // [m
+[31m-      // saveButton[m
+[31m-      // [m
+[31m-      this.saveButton.Location = new System.Drawing.Point(670, 504);[m
+[31m-      this.saveButton.Name = "saveButton";[m
+[31m-      this.saveButton.Size = new System.Drawing.Size(75, 23);[m
+[31m-      this.saveButton.TabIndex = 6;[m
+[31m-      this.saveButton.Text = "Save";[m
+[31m-      this.saveButton.UseVisualStyleBackColor = true;[m
+[31m-      this.saveButton.Click += new System.EventHandler(this.saveButton_Click);[m
+[32m+[m[32m      this.Filename.Width = 133;[m
+       // [m
+[31m-      // loadButton[m
+[32m+[m[32m      // DateModified[m
+       // [m
+[31m-      this.loadButton.Location = new System.Drawing.Point(589, 504);[m
+[31m-      this.loadButton.Name = "loadButton";[m
+[31m-      this.loadButton.Size = new System.Drawing.Size(75, 23);[m
+[31m-      this.loadButton.TabIndex = 7;[m
+[31m-      this.loadButton.Text = "Load";[m
+[31m-      this.loadButton.UseVisualStyleBackColor = true;[m
+[32m+[m[32m      this.DateModified.DataPropertyName = "DateModified";[m
+[32m+[m[32m      this.DateModified.HeaderText = "Date Modified";[m
+[32m+[m[32m      this.DateModified.Name = "DateModified";[m
+[32m+[m[32m      this.DateModified.ReadOnly = true;[m
+[32m+[m[32m      this.DateModified.Width = 133;[m
+       // [m
+       // MainForm[m
+       // [m
+       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);[m
+       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;[m
+[31m-      this.ClientSize = new System.Drawing.Size(757, 539);[m
+[32m+[m[32m      this.ClientSize = new System.Drawing.Size(736, 539);[m
+       this.Controls.Add(this.loadButton);[m
+       this.Controls.Add(this.saveButton);[m
+       this.Controls.Add(this.resultTable);[m
+[36m@@ -186,12 +197,13 @@[m
+     private System.Windows.Forms.Label pathLabel;[m
+     private System.Windows.Forms.CheckBox scanSubfoldersCheckbox;[m
+     private System.Windows.Forms.DataGridView resultTable;[m
+[32m+[m[32m    private System.Windows.Forms.Button saveButton;[m
+[32m+[m[32m    private System.Windows.Forms.Button loadButton;[m
+     private System.Windows.Forms.DataGridViewTextBoxColumn Characters;[m
+     private System.Windows.Forms.DataGridViewTextBoxColumn Series;[m
+     private System.Windows.Forms.DataGridViewTextBoxColumn Tags;[m
+     private System.Windows.Forms.DataGridViewTextBoxColumn Filename;[m
+[31m-    private System.Windows.Forms.Button saveButton;[m
+[31m-    private System.Windows.Forms.Button loadButton;[m
+[32m+[m[32m    private System.Windows.Forms.DataGridViewTextBoxColumn DateModified;[m
+   }[m
+ }[m
+ [m
+[1mdiff --git a/ClassifyMoe/Form1.cs b/ClassifyMoe/Form1.cs[m
+[1mindex b1de524..5980116 100644[m
+[1m--- a/ClassifyMoe/Form1.cs[m
+[1m+++ b/ClassifyMoe/Form1.cs[m
+[36m@@ -18,7 +18,11 @@[m [mnamespace ClassifyMoe[m
+       {[m
+         this.pathLabel.Text = folderBrowserDialog1.SelectedPath;[m
+         resultTable.Controls.Clear ();[m
+[31m-        new ScanFolder (folderBrowserDialog1.SelectedPath, resultTable);[m
+[32m+[m[32m        MoeFile[] moeFiles = new ScanFolder().GetMoeFiles(folderBrowserDialog1.SelectedPath);[m
+[32m+[m[32m        var poi = new InterpretFileData (moeFiles);[m
+[32m+[m[32m        moeFiles = poi.Interpret (moeFiles);[m
+[32m+[m[32m        new PopulateDataGridView (moeFiles, resultTable);[m
+[32m+[m[32m        new RemoveUnrecognizedFiles (resultTable);[m
+ [m
+         if (pathLabel.Text.Length > 0)[m
+         {[m
+[1mdiff --git a/ClassifyMoe/Form1.resx b/ClassifyMoe/Form1.resx[m
+[1mindex 6610ffd..83020df 100644[m
+[1m--- a/ClassifyMoe/Form1.resx[m
+[1m+++ b/ClassifyMoe/Form1.resx[m
+[36m@@ -132,16 +132,7 @@[m
+   <metadata name="Filename.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+     <value>True</value>[m
+   </metadata>[m
+[31m-  <metadata name="Characters.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+[31m-    <value>True</value>[m
+[31m-  </metadata>[m
+[31m-  <metadata name="Series.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+[31m-    <value>True</value>[m
+[31m-  </metadata>[m
+[31m-  <metadata name="Tags.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+[31m-    <value>True</value>[m
+[31m-  </metadata>[m
+[31m-  <metadata name="Filename.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+[32m+[m[32m  <metadata name="DateModified.UserAddedColumn" type="System.Boolean, mscorlib, Version=4.0.0.0, Culture=neutral, PublicKeyToken=b77a5c561934e089">[m
+     <value>True</value>[m
+   </metadata>[m
+ </root>[m
+\ No newline at end of file[m
+[1mdiff --git a/ClassifyMoe/MoeFile.cs b/ClassifyMoe/MoeFile.cs[m
+[1mindex 5670d74..cdd4d3e 100644[m
+[1m--- a/ClassifyMoe/MoeFile.cs[m
+[1m+++ b/ClassifyMoe/MoeFile.cs[m
+[36m@@ -4,6 +4,7 @@[m [mnamespace ClassifyMoe[m
+ {[m
+   class MoeFile[m
+   {[m
+[32m+[m[32m    public string fullPath;[m
+     public string characters;[m
+     public string series;[m
+     public string tags;[m
+[36m@@ -15,13 +16,14 @@[m [mnamespace ClassifyMoe[m
+ [m
+     }[m
+ [m
+[31m-    public MoeFile(string _characters, string _series, string _tags, string _filename, DateTime _dateModified)[m
+[32m+[m[32m    public MoeFile(string _fullPath, DateTime _dateModified, string _characters, string _series, string _tags, string _filename)[m
+     {[m
+[32m+[m[32m      fullPath = _fullPath;[m
+[32m+[m[32m      dateModified = _dateModified;[m
+       characters = _characters;[m
+       series = _series;[m
+       tags = _tags;[m
+       filename = _filename;[m
+[31m-      dateModified = _dateModified;[m
+     }[m
+   }[m
+ }[m
+[1mdiff --git a/ClassifyMoe/ScanFolder.cs b/ClassifyMoe/ScanFolder.cs[m
+[1mindex 08e5a3d..7ed5cc9 100644[m
+[1m--- a/ClassifyMoe/ScanFolder.cs[m
+[1m+++ b/ClassifyMoe/ScanFolder.cs[m
+[36m@@ -7,55 +7,23 @@[m [mnamespace ClassifyMoe[m
+ {[m
+   class ScanFolder[m
+   {[m
+[31m-    public ScanFolder (string path, DataGridView result)[m
+[32m+[m[32m    public MoeFile[] GetMoeFiles (string path)[m
+     {[m
+[31m-      //string[] files = Directory.GetFiles (path);[m
+[31m-      string[] files;[m
+[32m+[m[32m      MoeFile[] moeFiles = new MoeFile[Directory.GetFiles (path).Length];[m
+[32m+[m[32m      FileInfo[] allFiles = Directory.GetFiles (path).Select (fn => new FileInfo (fn)).OrderByDescending (f => f.LastWriteTimeUtc).ToArray();[m
+ [m
+[31m-      var sortedFiles = Directory.GetFiles (path).Select(fn => new FileInfo(fn)).OrderBy (f => f.Length);[m
+[31m-[m
+[31m-      if (files != null && files.Length > 0)[m
+[32m+[m[32m      if (allFiles != null && allFiles.Length > 0)[m
+       {[m
+[31m-        for (int i = 0; i < files.Length; i++)[m
+[32m+[m[32m        for (int i = 0; i < allFiles.Length; i++)[m
+         {[m
+           MoeFile moeFile = new MoeFile ();[m
+[31m-          Console.WriteLine ("Processing " + files[i] + "...");[m
+[31m-[m
+[31m-          if (files[i].Contains ("-")) //file has at least a character OR a series OR a tag[m
+[31m-          {[m
+[31m-            if (files[i].Contains ("(") && files[i].Contains (")")) //file has at least a series[m
+[31m-            {[m
+[31m-              moeFile.characters = files[i].Substring (files[i].LastIndexOf ("\\") + 1, files[i].IndexOf ("(") - files[i].LastIndexOf ("\\") - 1).Trim ();[m
+[31m-              moeFile.series = files[i].Substring (files[i].IndexOf ("(") + 1, files[i].IndexOf (")") - files[i].IndexOf ("(") - 1).Trim ();[m
+[31m-              moeFile.filename = files[i].Substring (files[i].LastIndexOf ("-") + 1).Trim ();[m
+[31m-              moeFile.tags = files[i].Substring (files[i].IndexOf (")") + 1, files[i].LastIndexOf ("-") - files[i].IndexOf (")") - 1).Trim ();[m
+[31m-            }[m
+[31m-            else //file does not have a series, but does have a tag or character. interpret as character.[m
+[31m-            {[m
+[31m-              moeFile.characters = files[i].Substring (files[i].LastIndexOf ("\\") + 1, files[i].LastIndexOf ("-") - files[i].LastIndexOf ("\\") - 1).Trim ();[m
+[31m-              moeFile.filename = files[i].Substring (files[i].IndexOf ("-") + 1).Trim ();[m
+[31m-            }[m
+[31m-          }[m
+[31m-          else[m
+[31m-          {[m
+[31m-            moeFile.filename = files[i].Substring (files[i].LastIndexOf ("\\") + 1).Trim ();[m
+[31m-          }[m
+[31m-[m
+[31m-          if (result.RowCount <= i + 1)[m
+[31m-          {[m
+[31m-            result.Rows.Add(1);[m
+[31m-          }[m
+[31m-[m
+[31m-          DataGridViewRow row = (DataGridViewRow) result.Rows[i];[m
+[31m-[m
+[31m-          row.Cells[0].Value = moeFile.characters;[m
+[31m-          row.Cells[1].Value = moeFile.series;[m
+[31m-          row.Cells[2].Value = moeFile.tags;[m
+[31m-          row.Cells[3].Value = moeFile.filename;[m
+[32m+[m[32m          moeFile.fullPath = allFiles[i].FullName;[m
+[32m+[m[32m          moeFile.dateModified = allFiles[i].LastWriteTimeUtc;[m
+[32m+[m[32m          moeFiles[i] = moeFile;[m
+         }[m
+[31m-[m
+[31m-        new RemoveUnrecognizedFiles (result);[m
+       }[m
+[32m+[m
+[32m+[m[32m      return moeFiles;[m
+     }[m
+   }[m
+ }[m

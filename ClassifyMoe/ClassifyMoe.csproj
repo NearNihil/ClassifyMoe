@@ -52,7 +52,9 @@
     <Compile Include="Form1.Designer.cs">
       <DependentUpon>Form1.cs</DependentUpon>
     </Compile>
+    <Compile Include="InterpretFileData.cs" />
     <Compile Include="MoeFile.cs" />
+    <Compile Include="PopulateDataGridView.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
     <Compile Include="RemoveUnrecognizedFiles.cs" />

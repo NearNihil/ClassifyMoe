@@ -35,12 +35,13 @@
       this.pathLabel = new System.Windows.Forms.Label();
       this.scanSubfoldersCheckbox = new System.Windows.Forms.CheckBox();
       this.resultTable = new System.Windows.Forms.DataGridView();
+      this.saveButton = new System.Windows.Forms.Button();
+      this.loadButton = new System.Windows.Forms.Button();
       this.Characters = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Series = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Tags = new System.Windows.Forms.DataGridViewTextBoxColumn();
       this.Filename = new System.Windows.Forms.DataGridViewTextBoxColumn();
-      this.saveButton = new System.Windows.Forms.Button();
-      this.loadButton = new System.Windows.Forms.Button();
+      this.DateModified = new System.Windows.Forms.DataGridViewTextBoxColumn();
       ((System.ComponentModel.ISupportInitialize)(this.resultTable)).BeginInit();
       this.SuspendLayout();
       // 
@@ -101,45 +102,18 @@
             this.Characters,
             this.Series,
             this.Tags,
-            this.Filename});
+            this.Filename,
+            this.DateModified});
       this.resultTable.Location = new System.Drawing.Point(19, 81);
       this.resultTable.Name = "resultTable";
       this.resultTable.ReadOnly = true;
       this.resultTable.ScrollBars = System.Windows.Forms.ScrollBars.Vertical;
-      this.resultTable.Size = new System.Drawing.Size(726, 417);
+      this.resultTable.Size = new System.Drawing.Size(709, 417);
       this.resultTable.TabIndex = 5;
-      // 
-      // Characters
-      // 
-      this.Characters.HeaderText = "Characters";
-      this.Characters.Name = "Characters";
-      this.Characters.ReadOnly = true;
-      this.Characters.Width = 150;
-      // 
-      // Series
-      // 
-      this.Series.HeaderText = "Series";
-      this.Series.Name = "Series";
-      this.Series.ReadOnly = true;
-      this.Series.Width = 150;
-      // 
-      // Tags
-      // 
-      this.Tags.HeaderText = "Tags";
-      this.Tags.Name = "Tags";
-      this.Tags.ReadOnly = true;
-      this.Tags.Width = 150;
-      // 
-      // Filename
-      // 
-      this.Filename.HeaderText = "Filename";
-      this.Filename.Name = "Filename";
-      this.Filename.ReadOnly = true;
-      this.Filename.Width = 150;
       // 
       // saveButton
       // 
-      this.saveButton.Location = new System.Drawing.Point(670, 504);
+      this.saveButton.Location = new System.Drawing.Point(653, 504);
       this.saveButton.Name = "saveButton";
       this.saveButton.Size = new System.Drawing.Size(75, 23);
       this.saveButton.TabIndex = 6;
@@ -149,18 +123,55 @@
       // 
       // loadButton
       // 
-      this.loadButton.Location = new System.Drawing.Point(589, 504);
+      this.loadButton.Location = new System.Drawing.Point(572, 504);
       this.loadButton.Name = "loadButton";
       this.loadButton.Size = new System.Drawing.Size(75, 23);
       this.loadButton.TabIndex = 7;
       this.loadButton.Text = "Load";
       this.loadButton.UseVisualStyleBackColor = true;
       // 
+      // Characters
+      // 
+      this.Characters.DataPropertyName = "MoeFile.fullPath";
+      this.Characters.HeaderText = "Characters";
+      this.Characters.Name = "Characters";
+      this.Characters.ReadOnly = true;
+      this.Characters.Width = 133;
+      // 
+      // Series
+      // 
+      this.Series.HeaderText = "Series";
+      this.Series.Name = "Series";
+      this.Series.ReadOnly = true;
+      this.Series.Width = 133;
+      // 
+      // Tags
+      // 
+      this.Tags.HeaderText = "Tags";
+      this.Tags.Name = "Tags";
+      this.Tags.ReadOnly = true;
+      this.Tags.Width = 133;
+      // 
+      // Filename
+      // 
+      this.Filename.HeaderText = "Filename";
+      this.Filename.Name = "Filename";
+      this.Filename.ReadOnly = true;
+      this.Filename.Width = 133;
+      // 
+      // DateModified
+      // 
+      this.DateModified.DataPropertyName = "DateModified";
+      this.DateModified.HeaderText = "Date Modified";
+      this.DateModified.Name = "DateModified";
+      this.DateModified.ReadOnly = true;
+      this.DateModified.Width = 133;
+      // 
       // MainForm
       // 
       this.AutoScaleDimensions = new System.Drawing.SizeF(6F, 13F);
       this.AutoScaleMode = System.Windows.Forms.AutoScaleMode.Font;
-      this.ClientSize = new System.Drawing.Size(757, 539);
+      this.ClientSize = new System.Drawing.Size(736, 539);
       this.Controls.Add(this.loadButton);
       this.Controls.Add(this.saveButton);
       this.Controls.Add(this.resultTable);
@@ -186,12 +197,13 @@
     private System.Windows.Forms.Label pathLabel;
     private System.Windows.Forms.CheckBox scanSubfoldersCheckbox;
     private System.Windows.Forms.DataGridView resultTable;
+    private System.Windows.Forms.Button saveButton;
+    private System.Windows.Forms.Button loadButton;
     private System.Windows.Forms.DataGridViewTextBoxColumn Characters;
     private System.Windows.Forms.DataGridViewTextBoxColumn Series;
     private System.Windows.Forms.DataGridViewTextBoxColumn Tags;
     private System.Windows.Forms.DataGridViewTextBoxColumn Filename;
-    private System.Windows.Forms.Button saveButton;
-    private System.Windows.Forms.Button loadButton;
+    private System.Windows.Forms.DataGridViewTextBoxColumn DateModified;
   }
 }
 

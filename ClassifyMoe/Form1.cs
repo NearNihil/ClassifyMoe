@@ -18,7 +18,11 @@ namespace ClassifyMoe
       {
         this.pathLabel.Text = folderBrowserDialog1.SelectedPath;
         resultTable.Controls.Clear ();
-        new ScanFolder (folderBrowserDialog1.SelectedPath, resultTable);
+        MoeFile[] moeFiles = new ScanFolder().GetMoeFiles(folderBrowserDialog1.SelectedPath);
+        var poi = new InterpretFileData (moeFiles);
+        moeFiles = poi.Interpret (moeFiles);
+        new PopulateDataGridView (moeFiles, resultTable);
+        new RemoveUnrecognizedFiles (resultTable);
 
         if (pathLabel.Text.Length > 0)
         {
