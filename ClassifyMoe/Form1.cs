@@ -1,20 +1,35 @@
 ﻿using System;
-using System.Collections.Generic;
-using System.ComponentModel;
-using System.Data;
-using System.Drawing;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 using System.Windows.Forms;
 
 namespace ClassifyMoe
 {
-  public partial class Form1 : Form
+  public partial class MainForm : Form
   {
-    public Form1()
+    public MainForm ()
     {
-      InitializeComponent();
+      InitializeComponent ();
+      this.pathLabel.Text = "";
+      saveButton.Enabled = false;
+    }
+
+    private void folderSelectButton_Click (object sender, EventArgs e)
+    {
+      if (folderBrowserDialog1.ShowDialog () == DialogResult.OK)
+      {
+        this.pathLabel.Text = folderBrowserDialog1.SelectedPath;
+        resultTable.Controls.Clear ();
+        new ScanFolder (folderBrowserDialog1.SelectedPath, resultTable);
+
+        if (pathLabel.Text.Length > 0)
+        {
+          saveButton.Enabled = true;
+        }
+      }
+    }
+
+    private void saveButton_Click (object sender, EventArgs e)
+    {
+      new Save (pathLabel.Text, resultTable);
     }
   }
 }
