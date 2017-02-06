@@ -37,17 +37,17 @@ namespace ClassifyMoe
 
         if (input.Rows[i].Cells[3].Value != null && input.Rows[i].Cells[3].Value.ToString ().Length != 0) //filename
         {
-          fileDataToWrite[i] = input.Rows[i].Cells[3].Value.ToString ();
+          fileDataToWrite[i] += input.Rows[i].Cells[3].Value.ToString ();
         }
 
         fileDataToWrite[i] += ",";
 
         if (input.Rows[i].Cells[3].Value != null && input.Rows[i].Cells[3].Value.ToString ().Length != 0) //date modified
         {
-          fileDataToWrite[i] = input.Rows[i].Cells[4].Value.ToString ();
+          fileDataToWrite[i] += input.Rows[i].Cells[4].Value.ToString ();
         }
 
-          Console.WriteLine (fileDataToWrite[i]);
+        Console.WriteLine (fileDataToWrite[i]);
       }
 
       Console.WriteLine ("Data to write: \n" + fileDataToWrite[0]);
